@@ -14,10 +14,12 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+		<!-- To utilize Font Awesome icons -->
+    <script src="https://kit.fontawesome.com/f99d80629d.js" crossorigin="anonymous"></script>
     <!-- CSS and JS -->
     <link rel="stylesheet" href="login.css" type="text/css" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
-    <script src="script.js" defer></script>
+    <script src="script.js" type="text/javascript" defer></script>
   </head>
   <body>
 		<div class="header">
@@ -25,10 +27,14 @@
         <img src="bookstore-logo-white.png" width="300" />
       </div>
     <div class="center">
-      <form class="sign-in-form" autocomplete="off">
+      <form id="sign-in-form" autocomplete="off">
         <h1>Sign In</h1>
         <div class="form-row">
-					<div class="login-error hide"></div>
+					<!-- Error message that defaults as hidden -->
+					<div id="login-error" class="hide">
+						<i class="fa-solid fa-circle-exclamation" class="hide"></i>
+						<p id="login-error-message"></p>
+					</div>
 				</div>
 				<div class="form-row">
           <label for="username">Username</label>
@@ -39,7 +45,7 @@
           <input id="password" name="password" type="password" />
         </div>
         <div class="form-row">
-          <button>Sign In</button>
+          <button type="submit">Sign In</button>
         </div>
       </form>
     </div>

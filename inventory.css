@@ -1,0 +1,19 @@
+#logout-button {
+  padding: 10px 15px 10px 15px;
+  color: white;
+  background-color: #1ca1c1;
+  border: none;
+  border-radius: 3px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+#logout-button:hover {
+  filter: brightness(98%);
+}
+
+#logout-button:active {
+  filter: brightness(94%);
+}
