@@ -1,0 +1,35 @@
+h1,
+h2 {
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a::after {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.center {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  top: 40%;
+  padding: 20px;
+  color: white;
+}
+
+input {
+  outline: none;
+  height: 20px;
+}

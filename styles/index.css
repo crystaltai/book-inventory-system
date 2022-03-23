@@ -1,0 +1,35 @@
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(/images/bookstore-exterior.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sign-in-button {
+  padding: 10px 15px 10px 15px;
+  color: white;
+  background-color: #1ca1c1;
+  border: none;
+  border-radius: 3px;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sign-in-button:hover {
+  filter: brightness(98%);
+}
+
+.sign-in-button:active {
+  filter: brightness(94%);
+}
