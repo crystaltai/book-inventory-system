@@ -16,6 +16,13 @@
     />
     <!-- To utilize Font Awesome icons -->
     <script src="https://kit.fontawesome.com/f99d80629d.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
     <!-- CSS and JS -->
     <link rel="stylesheet" href="inventory.css" type="text/css" />
     <link rel="stylesheet" href="styles.css" type="text/css" />
@@ -29,6 +36,35 @@
       <div>
         <button id="logout-button">Log Out</button>
       </div>
+    </div>
+    <div class="main">
+      <div class="sidebar">
+        <div class="user-profile-container">
+          <div class="pfp"><img src="user-employee.png" width="150" /></div>
+          <div class="user-details">
+            <table class="table user-details-table">
+              <tbody>
+                <tr class="user-details-table-row">
+                  <td class="user-details-icon"><i class="fa-solid fa-user"></i></td>
+                  <td class="user-details-label">Name</td>
+                  <td class="user-details-detail">Bob Employee</td>
+                </tr>
+                <tr class="user-details-table-row">
+                  <td class="user-details-icon"><i class="fa-solid fa-id-card"></i></td>
+                  <td class="user-details-label">Emp ID</td>
+                  <td class="user-details-detail">35</td>
+                </tr>
+                <tr class="user-details-table-row">
+                  <td class="user-details-icon"><i class="fa-solid fa-store"></i></td>
+                  <td class="user-details-label">Store ID</td>
+                  <td class="user-details-detail">1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="main-inventory"></div>
     </div>
   </body>
 </html>

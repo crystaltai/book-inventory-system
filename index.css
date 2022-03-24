@@ -7,13 +7,6 @@ body {
   background-size: cover;
 }
 
-.header {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .sign-in-button {
   padding: 10px 15px 10px 15px;
   color: white;

@@ -17,3 +17,43 @@
 #logout-button:active {
   filter: brightness(94%);
 }
+
+.main {
+  display: flex;
+  margin: auto -1rem 1rem;
+  width: 100vw;
+  height: 100vh;
+  border-top: 1px solid #d1d8e0;
+}
+
+.sidebar {
+  flex: 0 0 250px;
+  background-color: #475466;
+  padding: 40px 20px 20px 20px;
+}
+
+.main-inventory {
+  flex: 5;
+  background-color: #ebedf0;
+  padding: 20px;
+}
+
+.user-profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-details-table {
+  color: white;
+  font-size: 14px;
+}
+
+.user-details-table > tbody > tr > td {
+  border: none;
+}
+
+.user-details-label {
+  font-weight: 400;
+}
