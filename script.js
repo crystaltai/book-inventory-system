@@ -394,7 +394,6 @@ function addNewBook() {
       `${bookStock.innerHTML}`,
       `${bookPrice.innerHTML}`
     );
-    console.log(newBook);
     books.push(newBook);
 
     // Append books details to each row
@@ -449,9 +448,14 @@ let currBookUpdateIndex;
 
 // Grab update book button DOM
 let updateBookBtn = document.getElementById('update-book-button');
-
 if (updateBookBtn) {
   updateBookBtn.addEventListener('click', updateBookDetails);
+}
+
+// Grate delete book button DOM
+let deleteBookBtn = document.getElementById('delete-book-button');
+if (deleteBookBtn) {
+  deleteBookBtn.addEventListener('click', deleteBook);
 }
 
 // Function to open modal and pull book data when row is clicked
@@ -476,6 +480,13 @@ function getBookDetails(bookIndex) {
 
   // Show Update Book Button
   updateBookBtn.style.display = 'block';
+
+  // If user is a manager level, show Delete Book button
+  // Grab the loggedInUser from localStorage
+  let loggedInUser = getLoggedInUser();
+  if (loggedInUser.employee.permissions.delete == true) {
+    deleteBookBtn.style.display = 'block';
+  }
 }
 
 // Update book details when update book button is clicked
@@ -536,8 +547,9 @@ function updateBookDetails() {
     // Close Modal
     modal.style.display = 'none';
 
-    // Hide Update Book button
+    // Hide Update Book + Delete Book buttons
     updateBookBtn.style.display = 'none';
+    deleteBookBtn.style.display = 'none';
 
     // Hide error message (to reset)
     modalError.className = 'hide';
@@ -548,6 +560,63 @@ function updateBookDetails() {
   } else {
     modalError.className = 'error-message-container';
   }
+}
+// DELETE BOOK -------------------------------------------------------------------------------------------
+function deleteBook() {
+  // Delete book from array
+  books.splice(currBookUpdateIndex, 1);
+
+  // clear table
+  for (let i = inventoryTable.rows.length - 1; i >= 0; i--) {
+    inventoryTable.deleteRow(i);
+  }
+
+  // reload the books array
+  books.forEach(function (book) {
+    let bookRow = document.createElement('tr');
+    let bookTitle = document.createElement('td');
+    let bookAuthor = document.createElement('td');
+    let bookGenre = document.createElement('td');
+    let bookStock = document.createElement('td');
+    let bookPrice = document.createElement('td');
+
+    bookTitle.innerHTML = book.title;
+    bookAuthor.innerHTML = book.author;
+    bookGenre.innerHTML = book.genre;
+    bookStock.innerHTML = book.stock;
+    bookPrice.innerHTML = book.price;
+    bookRow.appendChild(bookTitle);
+    bookRow.appendChild(bookAuthor);
+    bookRow.appendChild(bookGenre);
+    bookRow.appendChild(bookStock);
+    bookRow.appendChild(bookPrice);
+
+    inventoryTable.appendChild(bookRow);
+  });
+
+  // Add event listeners (again) to all rows in the inventory table
+  for (let i = 0; i < inventoryTable.rows.length; i++) {
+    inventoryTable.rows[i].addEventListener('click', function () {
+      // Open model
+      modal.style.display = 'block';
+      // Display book details
+      getBookDetails(i);
+    });
+  }
+
+  // Close Modal
+  modal.style.display = 'none';
+
+  // Hide Update Book + Delete Book buttons
+  updateBookBtn.style.display = 'none';
+  deleteBookBtn.style.display = 'none';
+
+  // Hide error message (to reset)
+  modalError.className = 'hide';
+
+  // Reset form
+  let modalForm = document.getElementById('add-book-form');
+  modalForm.reset();
 }
 
 // MODAL FORM --------------------------------------------------------------------------------------------
@@ -575,7 +644,7 @@ if (closeModal) {
     modal.style.display = 'none';
     addNewBookBtn.style.display = 'none';
     updateBookBtn.style.display = 'none';
-
+    deleteBookBtn.style.display = 'none';
     // Reset form
     let modalForm = document.getElementById('add-book-form');
     modalForm.reset();
