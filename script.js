@@ -226,3 +226,5 @@ function doLoggedInCheck() {
     doSetup();
   }
 }
+
+doSetup();
