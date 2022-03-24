@@ -110,6 +110,7 @@ if (logoutButtonDOM) {
 }
 
 function logout() {
+  console.log('logged out');
   // Remove the currently logged in user key
   localStorage.removeItem(loggedInUserKey);
   // Send user back to home page
