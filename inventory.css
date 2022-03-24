@@ -23,7 +23,7 @@
   margin: auto -1rem 1rem;
   width: 100vw;
   height: 100vh;
-  border-top: 1px solid #d1d8e0;
+  border-top: 1px solid #ced6e0;
 }
 
 .sidebar {
@@ -32,7 +32,7 @@
   padding: 40px 20px 20px 20px;
 }
 
-.main-inventory {
+.main-inventory-container {
   flex: 5;
   background-color: #ebedf0;
   padding: 20px;
@@ -42,7 +42,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 .user-details-table {
@@ -52,8 +52,123 @@
 
 .user-details-table > tbody > tr > td {
   border: none;
+  padding: 5px;
 }
 
-.user-details-label {
-  font-weight: 400;
+.user-details-label,
+.user-details-icon {
+  color: #d1d8e0;
+}
+
+.user-details-detail {
+  font-weight: 500;
+}
+
+.inventory-header {
+  background-color: white;
+  border-left: 1px solid #ced6e0;
+  border-top: 1px solid #ced6e0;
+  border-right: 1px solid #ced6e0;
+  padding: 20px 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #475466;
+}
+
+.btn-success {
+  background-color: #10ac84;
+  border: none;
+}
+
+.inventory-table {
+  background-color: white;
+  color: #313131;
+  font-size: 14px;
+  cursor: default;
+  border: 1px solid #ced6e0;
+}
+
+/* Removes the default border blck line */
+.table > :not(:first-child) {
+  border-top: 0;
+}
+
+.inventory-table thead th {
+  background-color: #f4f5f9;
+  border-bottom: 1px solid #1ca1c1;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  cursor: pointer;
+}
+
+/* MODAL -------------------------------------------------------------------------- */
+#modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-container {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  max-width: 600px;
+}
+
+/* The Close Button */
+.modal-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #475466;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.add-book-form {
+  font-family: 'Roboto', sans-serif;
+}
+
+.modal-form-row {
+  margin: 15px;
+}
+
+.modal-form-row input {
+  padding: 20px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #aaaaaa;
+  color: #475466;
+}
+
+.error-message-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  background-color: #ffd2d2;
+  color: #eb4d4b;
+  padding: 10px 10px;
+  gap: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.hide {
+  display: none;
 }

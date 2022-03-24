@@ -4,9 +4,8 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-h1,
-h2 {
-  font-family: 'Roboto', sans-serif;
+h3 {
+  color: #1ca1c1;
 }
 
 a {
@@ -39,4 +38,11 @@ a::after {
 input {
   outline: none;
   height: 20px;
+}
+
+/* Remove arrows in number input fields */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

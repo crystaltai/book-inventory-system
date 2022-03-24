@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="styles.css" type="text/css" />
     <script src="script.js" type="text/javascript" defer></script>
   </head>
-  <body>
+  <body onload="updateLoggedInProfile()">
     <div class="header">
       <div class="logo">
         <img src="bookstore-logo.png" width="300" />
@@ -37,34 +37,122 @@
         <button id="logout-button">Log Out</button>
       </div>
     </div>
+    <!-- Modal -->
+    <div id="modal">
+      <div class="modal-container">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <h3><i class="fa-solid fa-book"></i> Book Details</h3>
+        <div id="book-form-error" class="hide">
+          <i class="fa-solid fa-circle-exclamation" class=""></i>
+          <span id="book-form-error-message">Please fill in all fields</span>
+        </div>
+        <div>
+          <form id="add-book-form" autocomplete="off">
+            <div class="modal-form-row">
+              <input id="book-title" name="book-title" type="text" placeholder="Title" required />
+            </div>
+            <div class="modal-form-row">
+              <input
+                id="book-author"
+                name="book-author"
+                type="text"
+                placeholder="Author"
+                required
+              />
+            </div>
+            <div class="modal-form-row">
+              <input id="book-genre" name="book-genre" type="text" placeholder="Genre" required />
+            </div>
+            <div class="modal-form-row">
+              <input
+                id="book-stock"
+                name="book-stock"
+                type="number"
+                min="0"
+                placeholder="Stock Count"
+                required
+              />
+            </div>
+            <div class="modal-form-row">
+              <input
+                id="book-price"
+                name="book-price"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Price"
+                required
+              />
+            </div>
+            <div class="modal-form-row">
+              <button type="button" class="btn btn-success hide" id="add-new-book-button">
+                Add Book
+              </button>
+              <button type="button" class="btn btn-success hide" id="update-book-button">
+                Update Book
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Main -->
     <div class="main">
+      <!-- Sidebar -->
       <div class="sidebar">
         <div class="user-profile-container">
-          <div class="pfp"><img src="user-employee.png" width="150" /></div>
-          <div class="user-details">
+          <div class="pfp"><img src="" id="pfp" width="150" /></div>
+          <div class="user-details" id="user-details">
             <table class="table user-details-table">
               <tbody>
                 <tr class="user-details-table-row">
                   <td class="user-details-icon"><i class="fa-solid fa-user"></i></td>
                   <td class="user-details-label">Name</td>
-                  <td class="user-details-detail">Bob Employee</td>
+                  <td class="user-details-detail" id="user-name"></td>
                 </tr>
                 <tr class="user-details-table-row">
                   <td class="user-details-icon"><i class="fa-solid fa-id-card"></i></td>
                   <td class="user-details-label">Emp ID</td>
-                  <td class="user-details-detail">35</td>
+                  <td class="user-details-detail" id="user-emp-id"></td>
                 </tr>
                 <tr class="user-details-table-row">
                   <td class="user-details-icon"><i class="fa-solid fa-store"></i></td>
                   <td class="user-details-label">Store ID</td>
-                  <td class="user-details-detail">1</td>
+                  <td class="user-details-detail" id="user-store-id"></td>
+                </tr>
+                <tr class="user-details-table-row">
+                  <td class="user-details-icon"><i class="fa-solid fa-crown"></i></td>
+                  <td class="user-details-label">Level</td>
+                  <td class="user-details-detail" id="user-level"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      <div class="main-inventory"></div>
+      <!-- Inventory -->
+      <div class="main-inventory-container">
+        <div class="inventory-header">
+          <span>Inventory of all books</span>
+          <button type="button" class="btn btn-success" id="add-book">
+            <i class="fa-solid fa-plus"></i> New Book
+          </button>
+        </div>
+
+        <!-- table -->
+        <table class="table table-hover inventory-table">
+          <!-- table head -->
+          <thead>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Stock</th>
+            <th>Price</th>
+          </thead>
+          <!-- table body -->
+          <tbody id="inventory-table-body"></tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>

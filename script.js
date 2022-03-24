@@ -49,6 +49,7 @@ function doFormLogin(username, password) {
   // If login is successful, change error message to empty string
   if (login(username, password)) {
     result = { pass: true, message: '' };
+    updateLoggedInProfile();
   }
   // Return the object with the error message (or empty string if no error)
   return result;
@@ -110,7 +111,7 @@ if (logoutButtonDOM) {
 }
 
 function logout() {
-  console.log('logged out');
+  // localStorage.removeItem(siteUsersKey);
   // Remove the currently logged in user key
   localStorage.removeItem(loggedInUserKey);
   // Send user back to home page
@@ -131,19 +132,20 @@ class SiteUser {
 }
 // Class for Employee
 class Employee {
-  constructor(name, idNumber, permissions, storeNumber) {
+  constructor(name, idNumber, permissions, storeNumber, pfp) {
     this.name = name;
     this.idNumber = idNumber;
     this.permissions = permissions;
     this.storeNumber = storeNumber;
+    this.pfp = pfp;
     this.employeeType = 'Employee';
   }
 }
 
 // Class for Manager
 class Manager extends Employee {
-  constructor(name, idNumber, permissions, storeNumber, employees) {
-    super(name, idNumber, permissions, storeNumber);
+  constructor(name, idNumber, permissions, storeNumber, pfp, employees) {
+    super(name, idNumber, permissions, storeNumber, pfp);
     this.employees = employees;
     this.employeeType = 'Manager';
   }
@@ -178,14 +180,16 @@ function createInitialUsers() {
     'Bob Employee',
     21,
     { add: true, update: true, delete: false, list: true },
-    1
+    1,
+    'user-employeeOne.png'
   );
 
   let employeeTwo = new Employee(
     'Joe Employee',
     13,
     { add: true, update: true, delete: false, list: true },
-    1
+    1,
+    'user-employeeTwo.png'
   );
 
   let managerOne = new Manager(
@@ -193,6 +197,7 @@ function createInitialUsers() {
     45,
     { add: true, update: true, delete: true, list: true },
     1,
+    'user-managerOne.png',
     [employeeOne, employeeTwo]
   );
 
@@ -211,11 +216,11 @@ function doSetup() {
 
 // Check if a user is logged in
 function doLoggedInCheck() {
+  // Grab the loggedInUser from localStorage
+  let loggedInUser = getLoggedInUser();
+
   // If currently not on the login page
   if (!window.location.href.toLowerCase().includes('login.html')) {
-    // Grab the loggedInUser from localStorage
-    let loggedInUser = getLoggedInUser();
-
     // If the loggedInUser is null, this means no user is logged in -- send person to login page
     if (loggedInUser == null) {
       window.location.href = 'login.html';
@@ -227,4 +232,355 @@ function doLoggedInCheck() {
   }
 }
 
+function updateLoggedInProfile() {
+  // Grab the loggedInUser from localStorage
+  let loggedInUser = getLoggedInUser();
+
+  // Grab DOM elements of user details
+  let userPfp = document.getElementById('pfp');
+  let userName = document.getElementById('user-name');
+  let userEmpID = document.getElementById('user-emp-id');
+  let userStoreID = document.getElementById('user-store-id');
+  let userLevel = document.getElementById('user-level');
+
+  // Update DOM values with the logged in current logged in user details
+  if (userPfp) {
+    userPfp.src = loggedInUser.employee.pfp;
+  }
+
+  if (userName) {
+    userName.innerText = loggedInUser.employee.name;
+  }
+
+  if (userEmpID) {
+    userEmpID.innerText = loggedInUser.employee.idNumber;
+  }
+
+  if (userStoreID) {
+    userStoreID.innerText = loggedInUser.employee.storeNumber;
+  }
+
+  if (userLevel) {
+    userLevel.innerText = loggedInUser.employee.employeeType;
+  }
+
+  doLoggedInCheck();
+}
+
+// BOOK LIST ---------------------------------------------------------------------------------------------
+// Class for each book
+class Book {
+  constructor(title, author, genre, stock, price) {
+    this.title = title;
+    this.author = author;
+    this.genre = genre;
+    this.stock = stock;
+    this.price = price;
+  }
+}
+
+// Create inital books (dummy data)
+const books = [
+  {
+    title: 'The Cat in the Hat',
+    author: 'Dr. Seuss',
+    genre: 'Children',
+    stock: 4,
+    price: 1.99,
+  },
+  {
+    title: 'Atomic Habits',
+    author: 'James Clear',
+    genre: 'Self Help',
+    stock: 8,
+    price: 12.99,
+  },
+  {
+    title: 'Never Split the Difference',
+    author: 'Chris Voss',
+    genre: 'Self Help',
+    stock: 2,
+    price: 16.99,
+  },
+  {
+    title: 'The Ride of a Lifetime',
+    author: 'Robert Iger',
+    genre: 'Memoir',
+    stock: 4,
+    price: 14.99,
+  },
+  {
+    title: 'Rich Dad, Poor Dad',
+    author: 'Robert Kiyosaki',
+    genre: 'Personal Finance',
+    stock: 5,
+    price: 3.99,
+  },
+  {
+    title: 'Why We Sleep',
+    author: 'Matthew Walker',
+    genre: 'Science',
+    stock: 1,
+    price: 13.99,
+  },
+];
+
+// Grab the table body DOM
+let inventoryTable = document.getElementById('inventory-table-body');
+
+if (inventoryTable) {
+  books.forEach(function (book) {
+    let bookRow = document.createElement('tr');
+    let bookTitle = document.createElement('td');
+    let bookAuthor = document.createElement('td');
+    let bookGenre = document.createElement('td');
+    let bookStock = document.createElement('td');
+    let bookPrice = document.createElement('td');
+
+    bookTitle.innerHTML = book.title;
+    bookAuthor.innerHTML = book.author;
+    bookGenre.innerHTML = book.genre;
+    bookStock.innerHTML = book.stock;
+    bookPrice.innerHTML = book.price;
+
+    bookRow.appendChild(bookTitle);
+    bookRow.appendChild(bookAuthor);
+    bookRow.appendChild(bookGenre);
+    bookRow.appendChild(bookStock);
+    bookRow.appendChild(bookPrice);
+
+    inventoryTable.appendChild(bookRow);
+  });
+}
+
+// ADD BOOK ----------------------------------------------------------------------------------------------
+let addNewBookBtn = document.getElementById('add-new-book-button');
+
+if (addNewBookBtn) {
+  addNewBookBtn.addEventListener('click', addNewBook);
+}
+
+// Modal error message (hidden by default)
+let modalError = document.getElementById('book-form-error');
+
+function addNewBook() {
+  // Allow user to input and save details to table
+  let bookRow = document.createElement('tr');
+  let bookTitle = document.createElement('td');
+  let bookAuthor = document.createElement('td');
+  let bookGenre = document.createElement('td');
+  let bookStock = document.createElement('td');
+  let bookPrice = document.createElement('td');
+
+  bookTitle.innerHTML = document.getElementById('book-title').value;
+  bookAuthor.innerHTML = document.getElementById('book-author').value;
+  bookGenre.innerHTML = document.getElementById('book-genre').value;
+  bookStock.innerHTML = document.getElementById('book-stock').value;
+  bookPrice.innerHTML = document.getElementById('book-price').value;
+
+  // Check if all input fields are filled in
+  if (
+    bookTitle.innerHTML != '' &&
+    bookAuthor.innerHTML != '' &&
+    bookGenre.innerHTML != '' &&
+    bookStock.innerHTML != '' &&
+    bookPrice.innerHTML != ''
+  ) {
+    // Add book to books array
+    let newBook = new Book(
+      `${bookTitle.innerHTML}`,
+      `${bookAuthor.innerHTML}`,
+      `${bookGenre.innerHTML}`,
+      `${bookStock.innerHTML}`,
+      `${bookPrice.innerHTML}`
+    );
+    console.log(newBook);
+    books.push(newBook);
+
+    // Append books details to each row
+    bookRow.appendChild(bookTitle);
+    bookRow.appendChild(bookAuthor);
+    bookRow.appendChild(bookGenre);
+    bookRow.appendChild(bookStock);
+    bookRow.appendChild(bookPrice);
+    // Append row to table
+    inventoryTable.appendChild(bookRow);
+
+    // Add event listeners to all rows in the inventory table
+    for (let i = 0; i < inventoryTable.rows.length; i++) {
+      inventoryTable.rows[i].addEventListener('click', function () {
+        // Open model
+        modal.style.display = 'block';
+        // Display book details
+        getBookDetails(i);
+      });
+    }
+
+    // Close Modal
+    modal.style.display = 'none';
+
+    // Hide Add New Book button
+    addNewBookBtn.style.display = 'none';
+
+    // Hide error message (to reset)
+    modalError.className = 'hide';
+
+    // Reset form
+    let modalForm = document.getElementById('add-book-form');
+    modalForm.reset();
+  } else {
+    modalError.className = 'error-message-container';
+  }
+}
+
+// UPDATE BOOK -------------------------------------------------------------------------------------------
+// Add event listeners to all rows in the inventory table
+for (let i = 0; i < inventoryTable.rows.length; i++) {
+  inventoryTable.rows[i].addEventListener('click', function () {
+    // Open model
+    modal.style.display = 'block';
+    // Display book details
+    getBookDetails(i);
+  });
+}
+
+// Current index being updated
+let currBookUpdateIndex;
+
+// Grab update book button DOM
+let updateBookBtn = document.getElementById('update-book-button');
+
+if (updateBookBtn) {
+  updateBookBtn.addEventListener('click', updateBookDetails);
+}
+
+// Function to open modal and pull book data when row is clicked
+function getBookDetails(bookIndex) {
+  currBookUpdateIndex = bookIndex;
+
+  // Fill in existing details of the book
+  let bookTitle = document.getElementById('book-title');
+  bookTitle.value = books[bookIndex].title;
+
+  let bookAuthor = document.getElementById('book-author');
+  bookAuthor.value = books[bookIndex].author;
+
+  let bookGenre = document.getElementById('book-genre');
+  bookGenre.value = books[bookIndex].genre;
+
+  let bookStock = document.getElementById('book-stock');
+  bookStock.value = books[bookIndex].stock;
+
+  let bookPrice = document.getElementById('book-price');
+  bookPrice.value = books[bookIndex].price;
+
+  // Show Update Book Button
+  updateBookBtn.style.display = 'block';
+}
+
+// Update book details when update book button is clicked
+function updateBookDetails() {
+  // Update details
+  books[currBookUpdateIndex].title = document.getElementById('book-title').value;
+  books[currBookUpdateIndex].author = document.getElementById('book-author').value;
+  books[currBookUpdateIndex].genre = document.getElementById('book-genre').value;
+  books[currBookUpdateIndex].stock = document.getElementById('book-stock').value;
+  books[currBookUpdateIndex].price = document.getElementById('book-price').value;
+
+  // Check if all input fields are filled in
+  if (
+    books[currBookUpdateIndex].title != '' &&
+    books[currBookUpdateIndex].author != '' &&
+    books[currBookUpdateIndex].genre != '' &&
+    books[currBookUpdateIndex].stock != '' &&
+    books[currBookUpdateIndex].price != ''
+  ) {
+    // clear table
+    for (let i = inventoryTable.rows.length - 1; i >= 0; i--) {
+      inventoryTable.deleteRow(i);
+    }
+
+    // reload the books array
+    books.forEach(function (book) {
+      let bookRow = document.createElement('tr');
+      let bookTitle = document.createElement('td');
+      let bookAuthor = document.createElement('td');
+      let bookGenre = document.createElement('td');
+      let bookStock = document.createElement('td');
+      let bookPrice = document.createElement('td');
+
+      bookTitle.innerHTML = book.title;
+      bookAuthor.innerHTML = book.author;
+      bookGenre.innerHTML = book.genre;
+      bookStock.innerHTML = book.stock;
+      bookPrice.innerHTML = book.price;
+      bookRow.appendChild(bookTitle);
+      bookRow.appendChild(bookAuthor);
+      bookRow.appendChild(bookGenre);
+      bookRow.appendChild(bookStock);
+      bookRow.appendChild(bookPrice);
+
+      inventoryTable.appendChild(bookRow);
+    });
+
+    // Add event listeners (again) to all rows in the inventory table
+    for (let i = 0; i < inventoryTable.rows.length; i++) {
+      inventoryTable.rows[i].addEventListener('click', function () {
+        // Open model
+        modal.style.display = 'block';
+        // Display book details
+        getBookDetails(i);
+      });
+    }
+
+    // Close Modal
+    modal.style.display = 'none';
+
+    // Hide Update Book button
+    updateBookBtn.style.display = 'none';
+
+    // Hide error message (to reset)
+    modalError.className = 'hide';
+
+    // Reset form
+    let modalForm = document.getElementById('add-book-form');
+    modalForm.reset();
+  } else {
+    modalError.className = 'error-message-container';
+  }
+}
+
+// MODAL FORM --------------------------------------------------------------------------------------------
+let modal = document.getElementById('modal');
+
+// Grab add button
+let addBookBtn = document.getElementById('add-book');
+
+// If Add button is clicked, display modal
+if (addBookBtn) {
+  addBookBtn.addEventListener('click', function () {
+    // Show Modal
+    modal.style.display = 'block';
+    // Show Add Book button
+    addNewBookBtn.style.display = 'block';
+  });
+}
+
+// Close modal
+let closeModal = document.getElementById('modal-close');
+
+if (closeModal) {
+  closeModal.addEventListener('click', function () {
+    // Hide the modal and all buttons
+    modal.style.display = 'none';
+    addNewBookBtn.style.display = 'none';
+    updateBookBtn.style.display = 'none';
+
+    // Reset form
+    let modalForm = document.getElementById('add-book-form');
+    modalForm.reset();
+  });
+}
+
+// Run demo immediately ----------------------------------------------------------------------------------
 doSetup();
