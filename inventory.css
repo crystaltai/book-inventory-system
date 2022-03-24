@@ -82,6 +82,11 @@
   border: none;
 }
 
+.btn-secondary {
+  background-color: #487eb0;
+  border: none;
+}
+
 .inventory-table {
   background-color: white;
   color: #313131;
@@ -100,7 +105,7 @@
   border-bottom: 1px solid #1ca1c1;
   padding-top: 12px;
   padding-bottom: 12px;
-  cursor: default;
+  cursor: pointer;
 }
 
 /* MODAL -------------------------------------------------------------------------- */

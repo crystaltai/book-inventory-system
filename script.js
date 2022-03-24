@@ -115,7 +115,7 @@ function logout() {
   // Remove the currently logged in user key
   localStorage.removeItem(loggedInUserKey);
   // Send user back to home page
-  window.location.href = 'index.html';
+  window.location.href = '/';
 }
 
 // USER SCRIPTS ------------------------------------------------------------------------------------------
@@ -322,6 +322,34 @@ const books = [
     genre: 'Science',
     stock: 1,
     price: 13.99,
+  },
+  {
+    title: 'The 7 Habits of Highly Effective People',
+    author: 'Stephen Covey',
+    genre: 'Self Help',
+    stock: 3,
+    price: 23.99,
+  },
+  {
+    title: 'Start With Why',
+    author: 'Simon Sinek',
+    genre: 'Business',
+    stock: 10,
+    price: 15.99,
+  },
+  {
+    title: 'The Millionaire Next Door',
+    author: 'Thomas Stanley',
+    genre: 'Personal Finance',
+    stock: 3,
+    price: 9.99,
+  },
+  {
+    title: 'How Will You Measure Your Life',
+    author: 'Clayton Christensen',
+    genre: 'Self Help',
+    stock: 6,
+    price: 19.99,
   },
 ];
 
@@ -651,5 +679,61 @@ if (closeModal) {
   });
 }
 
-// Run demo immediately ----------------------------------------------------------------------------------
-doSetup();
+// SORTING -------------------------------------------------------------------------------------------
+function sortTable(n) {
+  let i,
+    shouldSwitch,
+    switchcount = 0;
+
+  let table = document.getElementById('inventory-table');
+
+  let switching = true;
+
+  // Set sorting direction to ascending
+  let dir = 'asc';
+
+  // Make a loop that will continue until no switching has been done
+  while (switching) {
+    // Start by saying that no switching is done
+    switching = false;
+    let rows = table.rows;
+
+    // Loop through all table rows (except the first, which contains table headers)
+    for (i = 1; i < rows.length - 1; i++) {
+      // Start by saying there should be no switching
+      shouldSwitch = false;
+
+      // Get the 2 elements you want to compare, one from current row and one from the next row
+      let x = rows[i].getElementsByTagName('td')[n];
+      let y = rows[i + 1].getElementsByTagName('td')[n];
+
+      // Check if the 2 rows should switch places, based on the direction (asc or desc)
+      if (dir == 'asc') {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If yes, mark as a switch and break the loop
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == 'desc') {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If yes, mark as a switch and break the loop
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      // If a switch has been marked, make the switch and mark that a switch has been done
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1
+      switchcount++;
+    } else {
+      // If no switching has been done AND the direction is 'asc', set the direction to 'desc' and run the while loop again
+      if (switchcount == 0 && dir == 'asc') {
+        dir = 'desc';
+        switching = true;
+      }
+    }
+  }
+}

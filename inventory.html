@@ -88,11 +88,11 @@
               <button type="button" class="btn btn-success hide" id="add-new-book-button">
                 Add Book
               </button>
-              <button type="button" class="btn btn-success hide" id="update-book-button">
-                Update Book
+              <button type="button" class="btn btn-secondary hide" id="update-book-button">
+                <i class="fa-solid fa-pen"></i> Update Book
               </button>
               <button type="button" class="btn btn-danger hide" id="delete-book-button">
-                Delete Book
+                <i class="fa-solid fa-trash"></i> Delete Book
               </button>
             </div>
           </form>
@@ -141,14 +141,13 @@
             <i class="fa-solid fa-plus"></i> New Book
           </button>
         </div>
-
         <!-- table -->
-        <table class="table table-hover inventory-table">
+        <table class="table table-hover inventory-table" id="inventory-table">
           <!-- table head -->
           <thead>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Genre</th>
+            <th onclick="sortTable(0)">Title</th>
+            <th onclick="sortTable(1)">Author</th>
+            <th onclick="sortTable(2)">Genre</th>
             <th>Stock</th>
             <th>Price</th>
           </thead>
