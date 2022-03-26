@@ -115,7 +115,7 @@ function logout() {
   // Remove the currently logged in user key
   localStorage.removeItem(loggedInUserKey);
   // Send user back to home page
-  window.location.href = '/';
+  window.location.href = '/index.html';
 }
 
 // USER SCRIPTS ------------------------------------------------------------------------------------------
