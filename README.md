@@ -4,6 +4,10 @@ Project to create an inventory system for books using only HTML, CSS and Vanilla
 
 **🔗 Live preview:** https://crystaltai.github.io/book-inventory-system/
 
+- To login, use username: '**Manager1**' and password: '**password456**'
+
+  ![](https://github.com/crystaltai/book-inventory-system/blob/main/book-inventory-system-demo.gif)
+
 ## Built with
 
 ### Technologies
